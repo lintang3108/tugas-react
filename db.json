@@ -1,0 +1,22 @@
+{
+  "gurus": [
+    {
+      "id": 1,
+      "no": 1,
+      "namaguru": "pak bahar",
+      "matapelajaran": "bahasa inggris",
+      "nik": "08882",
+      "gender": "laki-laki",
+      "jabatan": "guru"
+    },
+    {
+      "id": 1,
+      "no": 1,
+      "nama": "pak bahar",
+      "mapel": "bahasa inggris",
+      "nik": "08882",
+      "gender": "laki-laki",
+      "jabatan": "guru"
+    }
+  ]
+}

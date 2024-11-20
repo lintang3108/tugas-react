@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom"; // Import Routes dan Route
+import Sidebar from "./component/Navbar"; // Import Sidebar component
+import Dashboard from "./component/Dashboard"; // Import Dashboard component
+import Tabel from "./guru/Tabel"; // Import Dashboard component
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Sidebar /> {/* Sidebar */}
+      <Routes>
+        <Route path="/" element={<Dashboard />} /> {/* Halaman Dashboard */}
+        <Route path="/Tabel" element={<Tabel />} /> {/* Halaman Dashboard */}
+        {/* Tambahkan route lain sesuai kebutuhan */}
+      </Routes>
     </div>
   );
 }
