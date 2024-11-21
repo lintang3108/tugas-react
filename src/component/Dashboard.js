@@ -6,161 +6,164 @@ import {
   CardContent,
   Typography,
   Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import GroupIcon from "@mui/icons-material/Group";
 import { Link } from "react-router-dom";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 
 const Dashboard = () => {
-  // Sample data for Guru and Siswa
   const guruData = [
     { id: 1, name: "Bpk. Mustabahar", subject: "Bahasa Inggris" },
-    { id: 2, name: "Bpk. Ali Musarof", subject: "Progam Keahlian" },
+    { id: 2, name: "Bpk. Ali Musarof", subject: "Program Keahlian" },
     { id: 3, name: "Bpk. Rian", subject: "PPKN" },
   ];
 
   const siswaData = [
-    { id: 1, name: "Agus", grade: "A" },
-    { id: 2, name: "Faik", grade: "B" },
-    { id: 3, name: "Dioz", grade: "A" },
+    { id: 1, name: "Agus", grade: "TKJ" },
+    { id: 2, name: "Faik", grade: "TKR" },
+    { id: 3, name: "Dioz", grade: "TB" },
   ];
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 3 }}>
+    <Box sx={{ flexGrow: 1, padding: 4, backgroundColor: "#f4f6f9" }}>
+      {/* Header */}
       <Typography
         variant="h4"
-        gutterBottom
-        sx={{ fontWeight: "bold", color: "#283593" }}
-      ></Typography>
+        sx={{
+          fontWeight: "bold",
+          color: "#3F51B5",
+          textAlign: "center",
+          marginBottom: 4,
+          fontFamily: "'Roboto', sans-serif",
+        }}
+      >
+        Selamat Datang di Dashboard
+      </Typography>
 
-      <Grid container justifyContent="center" alignItems="center" spacing={2}>
-        {/* Guru Data Summary */}
+      {/* Summary Cards */}
+      <Grid container justifyContent="center" spacing={3}>
+        {/* Guru Card */}
         <Grid item xs={12} sm={6} md={5}>
           <Card
             sx={{
-              backgroundColor: "#5C6BC0", // Soft blue shade
+              backgroundColor: "#5C6BC0",
               color: "#fff",
-              boxShadow: 3,
-              borderRadius: 3,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              boxShadow: 4,
+              borderRadius: 2,
               "&:hover": {
                 transform: "scale(1.05)",
                 boxShadow: 8,
               },
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}
           >
             <CardContent>
               <Typography
                 variant="h5"
-                component="div"
-                sx={{ display: "flex", alignItems: "center", mb: 3 }}
-              >
-                <SchoolIcon sx={{ marginRight: 1 }} />
-                Guru
-              </Typography>
-
-              <Button
-                component={Link}
-                to="/Tabel"
                 sx={{
-                  color: "#fff",
-                  backgroundColor: "#3F51B5", // Slightly darker blue
-                  borderRadius: 2,
-                  width: "100%",
-                  "&:hover": {
-                    backgroundColor: "#303F9F", // Darker blue
-                  },
-                  padding: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  marginBottom: 2,
                 }}
               >
-                Detail
+                <SchoolIcon sx={{ marginRight: 1 }} /> Guru
+              </Typography>
+              <Button
+                component={Link}
+                to="/TabelGuru"
+                fullWidth
+                sx={{
+                  color: "#fff",
+                  backgroundColor: "#3949AB",
+                  "&:hover": { backgroundColor: "#303F9F" },
+                  borderRadius: 2,
+                  padding: 1.5,
+                  fontWeight: "bold",
+                  textTransform: "none",
+                }}
+              >
+                Lihat Detail
               </Button>
             </CardContent>
           </Card>
         </Grid>
 
-        {/* Siswa Data Summary */}
+        {/* Siswa Card */}
         <Grid item xs={12} sm={6} md={5}>
           <Card
             sx={{
-              backgroundColor: "#81C784", // Fresh green shade
+              backgroundColor: "#66BB6A",
               color: "#fff",
-              boxShadow: 3,
-              borderRadius: 3,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              boxShadow: 4,
+              borderRadius: 2,
               "&:hover": {
                 transform: "scale(1.05)",
                 boxShadow: 8,
               },
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}
           >
             <CardContent>
               <Typography
                 variant="h5"
-                component="div"
-                sx={{ display: "flex", alignItems: "center", mb: 3 }}
-              >
-                <GroupIcon sx={{ marginRight: 1 }} />
-                Siswa
-              </Typography>
-
-              <Button
-                component={Link}
-                to="/Siswa"
                 sx={{
-                  color: "#fff",
-                  backgroundColor: "#66BB6A", // Lighter green
-                  borderRadius: 2,
-                  width: "100%",
-                  "&:hover": {
-                    backgroundColor: "#388E3C", // Darker green
-                  },
-                  padding: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  marginBottom: 2,
                 }}
               >
-                Detail
+                <GroupIcon sx={{ marginRight: 1 }} /> Siswa
+              </Typography>
+              <Button
+                component={Link}
+                to="/TabelSiswa"
+                fullWidth
+                sx={{
+                  color: "#fff",
+                  backgroundColor: "#43A047",
+                  "&:hover": { backgroundColor: "#2E7D32" },
+                  borderRadius: 2,
+                  padding: 1.5,
+                  fontWeight: "bold",
+                  textTransform: "none",
+                }}
+              >
+                Lihat Detail
               </Button>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
 
-      {/* Guru Table Section */}
-      <Box sx={{ marginTop: 3 }}>
+      {/* Guru Table */}
+      <Box sx={{ marginTop: 5 }}>
         <Typography
           variant="h5"
-          gutterBottom
           sx={{
             fontWeight: "bold",
-            color: "#283593", // Matching navbar blue
+            color: "#3F51B5",
             marginBottom: 2,
+            textAlign: "center",
           }}
         >
-          Guru List
+          Daftar Guru
         </Typography>
         <TableContainer
           component={Paper}
           sx={{
-            boxShadow: 5,
-            borderRadius: 3,
-            marginTop: 2,
+            boxShadow: 4,
+            borderRadius: 2,
             overflow: "hidden",
-            backgroundColor: "#E8EAF6", // Lighter blue background
+            backgroundColor: "#E8EAF6",
           }}
         >
           <Table>
@@ -169,21 +172,23 @@ const Dashboard = () => {
                 <TableCell
                   sx={{
                     fontWeight: "bold",
-                    backgroundColor: "#3F51B5", // Matching navbar blue
+                    backgroundColor: "#3949AB",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "16px",
+                    padding: "14px",
+                    fontSize: "1rem",
                   }}
                 >
-                  Nama
+                  Nama Guru
                 </TableCell>
                 <TableCell
                   sx={{
                     fontWeight: "bold",
-                    backgroundColor: "#3F51B5",
+                    backgroundColor: "#3949AB",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "16px",
+                    padding: "14px",
+                    fontSize: "1rem",
                   }}
                 >
                   Mata Pelajaran
@@ -192,14 +197,7 @@ const Dashboard = () => {
             </TableHead>
             <TableBody>
               {guruData.map((guru) => (
-                <TableRow
-                  key={guru.id}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#E8EAF6", // Highlight row on hover
-                    },
-                  }}
-                >
+                <TableRow key={guru.id}>
                   <TableCell sx={{ textAlign: "center", padding: "12px" }}>
                     {guru.name}
                   </TableCell>
@@ -213,27 +211,26 @@ const Dashboard = () => {
         </TableContainer>
       </Box>
 
-      {/* Siswa Table Section */}
-      <Box sx={{ marginTop: 3 }}>
+      {/* Siswa Table */}
+      <Box sx={{ marginTop: 5 }}>
         <Typography
           variant="h5"
-          gutterBottom
           sx={{
             fontWeight: "bold",
-            color: "#283593", // Consistent title color
+            color: "#3F51B5",
             marginBottom: 2,
+            textAlign: "center",
           }}
         >
-          Siswa List
+          Daftar Siswa
         </Typography>
         <TableContainer
           component={Paper}
           sx={{
-            boxShadow: 5,
-            borderRadius: 3,
-            marginTop: 2,
+            boxShadow: 4,
+            borderRadius: 2,
             overflow: "hidden",
-            backgroundColor: "#E8F5E9", // Light green background
+            backgroundColor: "#E8F5E9",
           }}
         >
           <Table>
@@ -242,21 +239,23 @@ const Dashboard = () => {
                 <TableCell
                   sx={{
                     fontWeight: "bold",
-                    backgroundColor: "#66BB6A", // Lighter green header
+                    backgroundColor: "#43A047",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "16px",
+                    padding: "14px",
+                    fontSize: "1rem",
                   }}
                 >
-                  Nama
+                  Nama Siswa
                 </TableCell>
                 <TableCell
                   sx={{
                     fontWeight: "bold",
-                    backgroundColor: "#66BB6A",
+                    backgroundColor: "#43A047",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "16px",
+                    padding: "14px",
+                    fontSize: "1rem",
                   }}
                 >
                   Kelas
@@ -265,14 +264,7 @@ const Dashboard = () => {
             </TableHead>
             <TableBody>
               {siswaData.map((siswa) => (
-                <TableRow
-                  key={siswa.id}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#E8F5E9", // Highlight row on hover
-                    },
-                  }}
-                >
+                <TableRow key={siswa.id}>
                   <TableCell sx={{ textAlign: "center", padding: "12px" }}>
                     {siswa.name}
                   </TableCell>

@@ -17,43 +17,43 @@ import { useNavigate } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    background: "linear-gradient(90deg, #1A237E 0%, #673AB7 100%)",
-    color: theme.palette.common.white,
+    backgroundColor: "#388E3C", // Hijau utama
+    color: theme.palette.common.white, // Warna teks tetap putih
     fontWeight: "bold",
     fontSize: 16,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    color: "#424242",
+    color: "#2E7D32", // Warna teks isi tabel hijau gelap
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: "#E8F5E9", // Hijau terang
   },
   "&:nth-of-type(even)": {
-    backgroundColor: "#f7f7f9",
+    backgroundColor: "#F1F8E9", // Hijau lebih terang
   },
   "&:hover": {
-    backgroundColor: "#E3F2FD",
+    backgroundColor: "#C8E6C9", // Highlight hijau terang saat di-hover
     transition: "background-color 0.3s ease",
   },
 }));
 
-export default function Guru() {
-  const [gurus, setGurus] = useState([]);
+export default function Siswa() {
+  const [siswas, setSiswas] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchGurus();
+    fetchSiswas();
   }, []);
 
-  const fetchGurus = () => {
+  const fetchSiswas = () => {
     axios
-      .get("http://localhost:3030/gurus")
+      .get("http://localhost:3030/siswas")
       .then((response) => {
-        setGurus(response.data);
+        setSiswas(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -66,17 +66,17 @@ export default function Guru() {
       text: "Data ini akan dihapus secara permanen!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
+      confirmButtonColor: "#D32F2F",
+      cancelButtonColor: "#388E3C",
       confirmButtonText: "Ya, hapus!",
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3030/gurus/${id}`)
+          .delete(`http://localhost:3030/siswas/${id}`)
           .then(() => {
             Swal.fire("Terhapus!", "Data berhasil dihapus.", "success");
-            fetchGurus(); // Refresh data setelah penghapusan
+            fetchSiswas(); // Refresh data setelah penghapusan
           })
           .catch((error) => {
             console.error("Error deleting data:", error);
@@ -87,36 +87,35 @@ export default function Guru() {
   };
 
   return (
-    <Box sx={{ p: 3, backgroundColor: "#EDE7F6", minHeight: "100vh" }}>
+    <Box sx={{ p: 3, backgroundColor: "#E8F5E9", minHeight: "100vh" }}>
       <Typography
         variant="h4"
         sx={{
           mb: 3,
           textAlign: "center",
-          color: "primary.main",
           fontWeight: "bold",
-          fontFamily: "Poppins",
-          background: "linear-gradient(90deg, #1A237E, #673AB7)",
+
+          background: "linear-gradient(90deg, #1B5E20, #4CAF50)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
         }}
       >
-        Daftar Guru
+        Daftar Siswa
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
         <Button
           variant="contained"
-          onClick={() => navigate("/tambah_guru")}
+          onClick={() => navigate("/Tambah_siswa")}
           sx={{
             fontWeight: "bold",
-            background: "linear-gradient(90deg, #1A237E, #673AB7)",
+            background: "linear-gradient(90deg, #1B5E20, #4CAF50)",
             color: "#fff",
             "&:hover": {
-              background: "linear-gradient(90deg, #3F51B5, #9575CD)",
+              background: "linear-gradient(90deg, #388E3C, #81C784)",
             },
           }}
         >
-          Tambah Guru
+          Tambah Siswa
         </Button>
       </Box>
       <TableContainer component={Paper} elevation={6}>
@@ -124,36 +123,40 @@ export default function Guru() {
           <TableHead>
             <TableRow>
               <StyledTableCell>No</StyledTableCell>
-              <StyledTableCell align="center">Nama Guru</StyledTableCell>
-              <StyledTableCell align="center">Mata Pelajaran</StyledTableCell>
-              <StyledTableCell align="center">NIK</StyledTableCell>
-              <StyledTableCell align="center">Gender</StyledTableCell>
-              <StyledTableCell align="center">Jabatan</StyledTableCell>
+              <StyledTableCell align="center">Nama Siswa</StyledTableCell>
+              <StyledTableCell align="center">Kelas</StyledTableCell>
+              <StyledTableCell align="center">Jurusan</StyledTableCell>
+              <StyledTableCell align="center">NISN</StyledTableCell>
+              <StyledTableCell align="center">Asal Sekolah</StyledTableCell>
               <StyledTableCell align="center">Aksi</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {gurus.map((guru, index) => (
-              <StyledTableRow key={guru.id}>
+            {siswas.map((siswa, index) => (
+              <StyledTableRow key={siswa.id}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell align="center">{guru.nama}</StyledTableCell>
-                <StyledTableCell align="center">{guru.mapel}</StyledTableCell>
-                <StyledTableCell align="center">{guru.nik}</StyledTableCell>
-                <StyledTableCell align="center">{guru.gender}</StyledTableCell>
-                <StyledTableCell align="center">{guru.jabatan}</StyledTableCell>
+                <StyledTableCell align="center">{siswa.nama}</StyledTableCell>
+                <StyledTableCell align="center">{siswa.kelas}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {siswa.jurusan}
+                </StyledTableCell>
+                <StyledTableCell align="center">{siswa.nisn}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {siswa.asalSekolah}
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   <Button
                     variant="contained"
                     size="small"
-                    onClick={() => navigate(`/ubah_guru/${guru.id}`)}
+                    onClick={() => navigate(`/Ubah_siswa/${siswa.id}`)}
                     sx={{
                       fontWeight: "bold",
                       mr: 1,
-                      backgroundColor: "#FFD54F",
-                      color: "#424242",
-                      "&:hover": { backgroundColor: "#FFC107" },
+                      backgroundColor: "#FFB74D",
+                      color: "#fff",
+                      "&:hover": { backgroundColor: "#FFA726" },
                     }}
                   >
                     Edit
@@ -161,12 +164,12 @@ export default function Guru() {
                   <Button
                     variant="contained"
                     size="small"
-                    onClick={() => handleDelete(guru.id)}
+                    onClick={() => handleDelete(siswa.id)}
                     sx={{
                       fontWeight: "bold",
-                      backgroundColor: "#D32F2F",
+                      backgroundColor: "#E53935",
                       color: "#fff",
-                      "&:hover": { backgroundColor: "#C62828" },
+                      "&:hover": { backgroundColor: "#D32F2F" },
                     }}
                   >
                     Hapus

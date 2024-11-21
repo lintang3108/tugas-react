@@ -1,22 +1,40 @@
 {
   "gurus": [
     {
-      "id": 1,
-      "no": 1,
-      "namaguru": "pak bahar",
-      "matapelajaran": "bahasa inggris",
-      "nik": "08882",
+      "nama": "Bpk.ali musarof",
+      "mapel": "matematika",
+      "nik": "6789",
       "gender": "laki-laki",
-      "jabatan": "guru"
+      "jabatan": "guru",
+      "id": "1"
     },
     {
-      "id": 1,
-      "no": 1,
-      "nama": "pak bahar",
-      "mapel": "bahasa inggris",
-      "nik": "08882",
+      "nama": "Bpk.Mustabahar",
+      "mapel": "matematika",
+      "nik": "6789",
       "gender": "laki-laki",
-      "jabatan": "guru"
+      "jabatan": "guru",
+      "id": "2"
+    }
+  ],
+  "siswas": [
+    {
+      "id": "1",
+      "no": 1,
+      "nama": "haidar",
+      "kelas": "12",
+      "jurusan": "tkj",
+      "nisn": "0897",
+      "asalSekolah": "smp kristen "
+    },
+    {
+      "id": "2",
+      "no": 2,
+      "nama": "faik",
+      "kelas": "11",
+      "jurusan": "tb",
+      "nisn": "9867",
+      "asalSekolah": "smk islam hindu budha"
     }
   ]
 }
