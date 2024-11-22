@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, TextField, Typography, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  useMediaQuery,
+} from "@mui/material";
 import Swal from "sweetalert2";
 
 export default function EditGuru() {
@@ -15,6 +22,9 @@ export default function EditGuru() {
     gender: "",
     jabatan: "",
   });
+
+  // Deteksi layar kecil
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     fetchGuruById();
@@ -71,15 +81,15 @@ export default function EditGuru() {
         alignItems: "center",
         minHeight: "100vh",
         background: "linear-gradient(to bottom right, #283593, #7E57C2)",
-        padding: 3,
+        padding: isMobile ? 2 : 3, // Padding berbeda untuk layar kecil
       }}
     >
       <Paper
         elevation={12}
         sx={{
-          p: 4,
+          p: isMobile ? 3 : 4, // Padding menyesuaikan ukuran layar
           width: "100%",
-          maxWidth: "420px",
+          maxWidth: isMobile ? "360px" : "420px", // Lebar maksimum dinamis
           borderRadius: "12px",
           backgroundColor: "rgba(255, 255, 255, 0.95)",
           boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)",
@@ -92,7 +102,7 @@ export default function EditGuru() {
             fontWeight: "bold",
             fontFamily: "Poppins, sans-serif",
             color: "#512DA8",
-            mb: 3,
+            mb: isMobile ? 2 : 3, // Margin bawah berubah di layar kecil
           }}
         >
           Edit Data Guru
@@ -105,7 +115,7 @@ export default function EditGuru() {
             name="nama"
             value={guru.nama}
             onChange={handleInputChange}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }} // Margin bawah dinamis
             required
           />
           <TextField
@@ -115,7 +125,7 @@ export default function EditGuru() {
             name="mapel"
             value={guru.mapel}
             onChange={handleInputChange}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }}
             required
           />
           <TextField
@@ -126,7 +136,7 @@ export default function EditGuru() {
             type="number"
             value={guru.nik}
             onChange={handleInputChange}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }}
             required
           />
           <TextField
@@ -136,7 +146,7 @@ export default function EditGuru() {
             name="gender"
             value={guru.gender}
             onChange={handleInputChange}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }}
             required
           />
           <TextField
@@ -146,13 +156,13 @@ export default function EditGuru() {
             name="jabatan"
             value={guru.jabatan}
             onChange={handleInputChange}
-            sx={{ mb: 3 }}
+            sx={{ mb: isMobile ? 2 : 3 }}
             required
           />
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: isMobile ? "column" : "row", // Vertikal di layar kecil
               gap: 2,
             }}
           >

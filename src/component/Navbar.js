@@ -51,14 +51,14 @@ function Navbar(props) {
         sx={{
           my: 2,
           fontWeight: "bold",
-          fontSize: "1.8rem",
+          fontSize: { xs: "1.5rem", md: "1.8rem" },
           fontFamily: "Poppins",
           background: "linear-gradient(90deg, #FF8A80, #FF80AB)",
           WebkitBackgroundClip: "text",
           color: "transparent",
         }}
       >
-        My Navbar
+        App
       </Typography>
       <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.3)" }} />
       <List>
@@ -100,6 +100,7 @@ function Navbar(props) {
         sx={{
           background: "linear-gradient(90deg, #3F51B5, #E040FB)",
           boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.3)",
+          transition: "all 0.3s ease",
         }}
       >
         <Toolbar>
@@ -130,6 +131,7 @@ function Navbar(props) {
               background: "linear-gradient(90deg, #FF6F00, #FFC400)",
               WebkitBackgroundClip: "text",
               color: "white",
+              fontSize: { xs: "1rem", md: "1.5rem" },
             }}
           >
             Tugas App
@@ -150,7 +152,7 @@ function Navbar(props) {
                     backgroundColor: "rgba(255, 255, 255, 0.2)",
                     color: "#FFC400",
                   },
-                  paddingX: 2,
+                  paddingX: { xs: 1, md: 2 },
                   transition: "all 0.3s ease",
                 }}
               >
@@ -184,7 +186,7 @@ function Navbar(props) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ p: 3 }}>
+      <Box component="main" sx={{ p: 3, width: "100%" }}>
         <Toolbar />
         {/* Content goes here */}
       </Box>

@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Typography,
+  Box,
+  useMediaQuery,
+} from "@mui/material";
+import { tableCellClasses } from "@mui/material/TableCell"; // Tambahkan ini
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { useNavigate } from "react-router-dom";
 
+// Styled TableCell
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3F51B5", // Warna biru utama
+    backgroundColor: "#3F51B5",
     color: theme.palette.common.white,
     fontWeight: "bold",
     fontSize: 16,
@@ -28,6 +33,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+// Styled TableRow
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
@@ -36,14 +42,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: "#f8f9fa",
   },
   "&:hover": {
-    backgroundColor: "#E8EAF6", // Highlight warna biru muda
+    backgroundColor: "#E8EAF6",
     transition: "background-color 0.3s ease",
   },
 }));
 
+// Komponen Utama
 export default function Guru() {
   const [gurus, setGurus] = useState([]);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     fetchGurus();
@@ -89,7 +97,7 @@ export default function Guru() {
   return (
     <Box sx={{ p: 3, backgroundColor: "#EDE7F6", minHeight: "100vh" }}>
       <Typography
-        variant="h4"
+        variant={isMobile ? "h5" : "h4"}
         sx={{
           mb: 3,
           textAlign: "center",
@@ -99,7 +107,14 @@ export default function Guru() {
       >
         Daftar Guru
       </Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: isMobile ? "center" : "space-between",
+          mb: 3,
+          flexDirection: isMobile ? "column" : "row",
+        }}
+      >
         <Button
           variant="contained"
           onClick={() => navigate("/Tambah_guru")}
@@ -108,6 +123,7 @@ export default function Guru() {
             backgroundColor: "#5C6BC0",
             color: "#fff",
             "&:hover": { backgroundColor: "#3F51B5" },
+            mb: isMobile ? 2 : 0,
           }}
         >
           Tambah Guru
@@ -115,9 +131,13 @@ export default function Guru() {
       </Box>
       <TableContainer
         component={Paper}
-        sx={{ borderRadius: 3, boxShadow: 4, overflow: "hidden" }}
+        sx={{
+          borderRadius: 3,
+          boxShadow: 4,
+          overflowX: "auto",
+        }}
       >
-        <Table sx={{ minWidth: 700 }}>
+        <Table sx={{ minWidth: 700, width: "100%" }}>
           <TableHead>
             <TableRow>
               <StyledTableCell>No</StyledTableCell>

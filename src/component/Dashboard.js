@@ -32,7 +32,14 @@ const Dashboard = () => {
   ];
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 4, backgroundColor: "#f4f6f9" }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        padding: 3,
+        backgroundColor: "#f4f6f9",
+        minHeight: "100vh",
+      }}
+    >
       {/* Header */}
       <Typography
         variant="h4"
@@ -48,7 +55,7 @@ const Dashboard = () => {
       </Typography>
 
       {/* Summary Cards */}
-      <Grid container justifyContent="center" spacing={3}>
+      <Grid container justifyContent="center" spacing={2}>
         {/* Guru Card */}
         <Grid item xs={12} sm={6} md={5}>
           <Card
@@ -175,8 +182,6 @@ const Dashboard = () => {
                     backgroundColor: "#3949AB",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "14px",
-                    fontSize: "1rem",
                   }}
                 >
                   Nama Guru
@@ -187,8 +192,6 @@ const Dashboard = () => {
                     backgroundColor: "#3949AB",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "14px",
-                    fontSize: "1rem",
                   }}
                 >
                   Mata Pelajaran
@@ -198,10 +201,10 @@ const Dashboard = () => {
             <TableBody>
               {guruData.map((guru) => (
                 <TableRow key={guru.id}>
-                  <TableCell sx={{ textAlign: "center", padding: "12px" }}>
+                  <TableCell sx={{ textAlign: "center" }}>
                     {guru.name}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center", padding: "12px" }}>
+                  <TableCell sx={{ textAlign: "center" }}>
                     {guru.subject}
                   </TableCell>
                 </TableRow>
@@ -242,8 +245,6 @@ const Dashboard = () => {
                     backgroundColor: "#43A047",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "14px",
-                    fontSize: "1rem",
                   }}
                 >
                   Nama Siswa
@@ -254,8 +255,6 @@ const Dashboard = () => {
                     backgroundColor: "#43A047",
                     color: "#fff",
                     textAlign: "center",
-                    padding: "14px",
-                    fontSize: "1rem",
                   }}
                 >
                   Kelas
@@ -265,10 +264,10 @@ const Dashboard = () => {
             <TableBody>
               {siswaData.map((siswa) => (
                 <TableRow key={siswa.id}>
-                  <TableCell sx={{ textAlign: "center", padding: "12px" }}>
+                  <TableCell sx={{ textAlign: "center" }}>
                     {siswa.name}
                   </TableCell>
-                  <TableCell sx={{ textAlign: "center", padding: "12px" }}>
+                  <TableCell sx={{ textAlign: "center" }}>
                     {siswa.grade}
                   </TableCell>
                 </TableRow>

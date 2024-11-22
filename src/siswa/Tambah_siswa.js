@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Swal from "sweetalert2";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function TambahSiswa() {
   const [namaMurid, setNamaMurid] = useState("");
@@ -14,19 +15,30 @@ export default function TambahSiswa() {
   const [jurusan, setJurusan] = useState("");
   const [nisn, setNisn] = useState("");
   const [asalSekolah, setAsalSekolah] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Input validation
     if (!namaMurid || !kelas || !jurusan || !nisn || !asalSekolah) {
       Swal.fire("Gagal!", "Semua field wajib diisi!", "error");
       return;
     }
 
+    // Checking NISN uniqueness
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:3030/siswas");
       const students = response.data;
+      const nisnExists = students.some((student) => student.nisn === nisn);
+
+      if (nisnExists) {
+        Swal.fire("Gagal!", "NISN sudah terdaftar!", "error");
+        setLoading(false);
+        return;
+      }
 
       const lastId =
         students.length > 0
@@ -52,6 +64,8 @@ export default function TambahSiswa() {
     } catch (error) {
       console.error("Error adding student:", error);
       Swal.fire("Gagal!", "Terjadi kesalahan saat menambahkan siswa.", "error");
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -160,9 +174,10 @@ export default function TambahSiswa() {
             <Button
               variant="contained"
               type="submit"
+              disabled={loading}
               sx={{
                 flex: 1,
-                background: "linear-gradient(45deg, #66BB6A, #388E3C)", // Hijau untuk tombol simpan
+                background: "linear-gradient(45deg, #66BB6A, #388E3C)",
                 color: "#fff",
                 fontWeight: "bold",
                 borderRadius: "8px",
@@ -171,7 +186,11 @@ export default function TambahSiswa() {
                 },
               }}
             >
-              Simpan
+              {loading ? (
+                <CircularProgress size={24} sx={{ color: "#fff" }} />
+              ) : (
+                "Simpan"
+              )}
             </Button>
           </Box>
         </form>

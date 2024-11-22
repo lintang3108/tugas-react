@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Swal from "sweetalert2";
+import { useMediaQuery } from "@mui/material";
 
 export default function TambahGuru() {
   const [namaGuru, setNamaGuru] = useState("");
@@ -15,6 +16,8 @@ export default function TambahGuru() {
   const [gender, setGender] = useState("");
   const [jabatan, setJabatan] = useState("");
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery("(max-width:600px)"); // Responsif untuk layar kecil
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,15 +64,15 @@ export default function TambahGuru() {
         alignItems: "center",
         minHeight: "100vh",
         background: "linear-gradient(to bottom right, #5C6BC0, #7986CB)",
-        padding: 3,
+        padding: isMobile ? 2 : 3, // Mengatur padding berdasarkan ukuran layar
       }}
     >
       <Paper
         elevation={10}
         sx={{
-          p: 4,
+          p: isMobile ? 3 : 4, // Padding berubah di layar kecil
           width: "100%",
-          maxWidth: "420px",
+          maxWidth: isMobile ? "360px" : "420px", // Maksimal lebar formulir
           borderRadius: "12px",
           backgroundColor: "rgba(255, 255, 255, 0.95)",
           boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)",
@@ -82,7 +85,7 @@ export default function TambahGuru() {
             fontWeight: "bold",
             fontFamily: "Poppins, sans-serif",
             color: "#283593",
-            mb: 3,
+            mb: isMobile ? 2 : 3, // Margin bawah berubah di layar kecil
           }}
         >
           Tambah Guru
@@ -94,7 +97,7 @@ export default function TambahGuru() {
             fullWidth
             value={namaGuru}
             onChange={(e) => setNamaGuru(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }} // Mengatur margin bawah
           />
           <TextField
             label="Mata Pelajaran"
@@ -102,7 +105,7 @@ export default function TambahGuru() {
             fullWidth
             value={mapel}
             onChange={(e) => setMapel(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }}
           />
           <TextField
             label="NIK"
@@ -111,7 +114,7 @@ export default function TambahGuru() {
             type="number"
             value={nik}
             onChange={(e) => setNik(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }}
           />
           <TextField
             label="Gender"
@@ -119,7 +122,7 @@ export default function TambahGuru() {
             fullWidth
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={{ mb: isMobile ? 1.5 : 2 }}
           />
           <TextField
             label="Jabatan"
@@ -127,12 +130,12 @@ export default function TambahGuru() {
             fullWidth
             value={jabatan}
             onChange={(e) => setJabatan(e.target.value)}
-            sx={{ mb: 3 }}
+            sx={{ mb: isMobile ? 2 : 3 }}
           />
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: isMobile ? "column" : "row", // Kolom di layar kecil
               gap: 2,
             }}
           >

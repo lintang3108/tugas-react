@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Swal from "sweetalert2";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function UbahSiswa() {
   const { id } = useParams();
@@ -18,9 +19,11 @@ export default function UbahSiswa() {
     nisn: "",
     asalSekolah: "",
   });
+  const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
     // Fetch data siswa berdasarkan id
+    setLoading(true);
     axios
       .get(`http://localhost:3030/siswas/${id}`)
       .then((response) => {
@@ -29,7 +32,8 @@ export default function UbahSiswa() {
       .catch((error) => {
         console.error("Error fetching student data:", error);
         Swal.fire("Error!", "Data siswa tidak ditemukan!", "error");
-      });
+      })
+      .finally(() => setLoading(false)); // Reset loading state
   }, [id]);
 
   const handleChange = (e) => {
@@ -43,6 +47,7 @@ export default function UbahSiswa() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Input validation
     if (
       !siswa.nama ||
       !siswa.kelas ||
@@ -54,6 +59,8 @@ export default function UbahSiswa() {
       return;
     }
 
+    // Start loading when submitting
+    setLoading(true);
     try {
       await axios.put(`http://localhost:3030/siswas/${id}`, siswa);
       Swal.fire("Berhasil!", "Data siswa berhasil diperbarui.", "success");
@@ -65,6 +72,8 @@ export default function UbahSiswa() {
         "Terjadi kesalahan saat memperbarui data siswa.",
         "error"
       );
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -178,6 +187,7 @@ export default function UbahSiswa() {
             <Button
               variant="contained"
               type="submit"
+              disabled={loading}
               sx={{
                 flex: 1,
                 background: "linear-gradient(45deg, #66BB6A, #388E3C)", // Hijau untuk tombol simpan
@@ -189,7 +199,11 @@ export default function UbahSiswa() {
                 },
               }}
             >
-              Simpan
+              {loading ? (
+                <CircularProgress size={24} sx={{ color: "#fff" }} />
+              ) : (
+                "Simpan"
+              )}
             </Button>
           </Box>
         </form>
