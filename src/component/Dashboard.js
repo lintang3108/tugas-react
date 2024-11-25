@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -17,19 +17,42 @@ import {
 import SchoolIcon from "@mui/icons-material/School";
 import GroupIcon from "@mui/icons-material/Group";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Dashboard = () => {
-  const guruData = [
-    { id: 1, name: "Bpk. Mustabahar", subject: "Bahasa Inggris" },
-    { id: 2, name: "Bpk. Ali Musarof", subject: "Program Keahlian" },
-    { id: 3, name: "Bpk. Rian", subject: "PPKN" },
-  ];
+  // State untuk menyimpan data guru dan siswa
+  const [guruData, setGuruData] = useState([]);
+  const [siswaData, setSiswaData] = useState([]);
+  const [loadingGuru, setLoadingGuru] = useState(true);
+  const [loadingSiswa, setLoadingSiswa] = useState(true);
 
-  const siswaData = [
-    { id: 1, name: "Agus", grade: "TKJ" },
-    { id: 2, name: "Faik", grade: "TKR" },
-    { id: 3, name: "Dioz", grade: "TB" },
-  ];
+  // Fetch data guru dari API
+  useEffect(() => {
+    axios
+      .get("http://localhost:3030/gurus") // Ganti dengan URL API yang sesuai
+      .then((response) => {
+        setGuruData(response.data);
+        setLoadingGuru(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching guru data:", error);
+        setLoadingGuru(false);
+      });
+  }, []);
+
+  // Fetch data siswa dari API
+  useEffect(() => {
+    axios
+      .get("http://localhost:3030/siswas") // Ganti dengan URL API yang sesuai
+      .then((response) => {
+        setSiswaData(response.data);
+        setLoadingSiswa(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching siswa data:", error);
+        setLoadingSiswa(false);
+      });
+  }, []);
 
   return (
     <Box
@@ -199,16 +222,30 @@ const Dashboard = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {guruData.map((guru) => (
-                <TableRow key={guru.id}>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {guru.name}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {guru.subject}
+              {loadingGuru ? (
+                <TableRow>
+                  <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                    Loading...
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : guruData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                    Tidak ada data guru.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                guruData.map((guru) => (
+                  <TableRow key={guru.id}>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {guru.nama}
+                    </TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {guru.mapel}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -262,16 +299,30 @@ const Dashboard = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {siswaData.map((siswa) => (
-                <TableRow key={siswa.id}>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {siswa.name}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    {siswa.grade}
+              {loadingSiswa ? (
+                <TableRow>
+                  <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                    Loading...
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : siswaData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                    Tidak ada data siswa.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                siswaData.map((siswa) => (
+                  <TableRow key={siswa.id}>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {siswa.nama}
+                    </TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {siswa.kelas}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -64,7 +64,7 @@ export default function UbahSiswa() {
     try {
       await axios.put(`http://localhost:3030/siswas/${id}`, siswa);
       Swal.fire("Berhasil!", "Data siswa berhasil diperbarui.", "success");
-      navigate("/");
+      navigate("/TabelSiswa");
     } catch (error) {
       console.error("Error updating student:", error);
       Swal.fire(
@@ -170,7 +170,7 @@ export default function UbahSiswa() {
           >
             <Button
               variant="contained"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/TabelSiswa")}
               sx={{
                 flex: 1,
                 background: "#E53935", // Merah untuk tombol batal

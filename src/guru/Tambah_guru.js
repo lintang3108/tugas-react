@@ -17,7 +17,7 @@ export default function TambahGuru() {
   const [jabatan, setJabatan] = useState("");
   const navigate = useNavigate();
 
-  const isMobile = useMediaQuery("(max-width:600px)"); // Responsif untuk layar kecil
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +49,9 @@ export default function TambahGuru() {
       await axios.post("http://localhost:3030/gurus", newTeacher);
 
       Swal.fire("Berhasil!", "Guru berhasil ditambahkan.", "success");
-      navigate("/", { state: { refresh: true } });
+
+      // Navigasi otomatis ke halaman daftar guru
+      navigate("/TabelGuru", { replace: true });
     } catch (error) {
       console.error("Error adding teacher:", error);
       Swal.fire("Gagal!", "Terjadi kesalahan saat menambahkan guru.", "error");
@@ -64,15 +66,15 @@ export default function TambahGuru() {
         alignItems: "center",
         minHeight: "100vh",
         background: "linear-gradient(to bottom right, #5C6BC0, #7986CB)",
-        padding: isMobile ? 2 : 3, // Mengatur padding berdasarkan ukuran layar
+        padding: isMobile ? 2 : 3,
       }}
     >
       <Paper
         elevation={10}
         sx={{
-          p: isMobile ? 3 : 4, // Padding berubah di layar kecil
+          p: isMobile ? 3 : 4,
           width: "100%",
-          maxWidth: isMobile ? "360px" : "420px", // Maksimal lebar formulir
+          maxWidth: isMobile ? "360px" : "420px",
           borderRadius: "12px",
           backgroundColor: "rgba(255, 255, 255, 0.95)",
           boxShadow: "0 6px 18px rgba(0, 0, 0, 0.1)",
@@ -85,7 +87,7 @@ export default function TambahGuru() {
             fontWeight: "bold",
             fontFamily: "Poppins, sans-serif",
             color: "#283593",
-            mb: isMobile ? 2 : 3, // Margin bawah berubah di layar kecil
+            mb: isMobile ? 2 : 3,
           }}
         >
           Tambah Guru
@@ -97,7 +99,7 @@ export default function TambahGuru() {
             fullWidth
             value={namaGuru}
             onChange={(e) => setNamaGuru(e.target.value)}
-            sx={{ mb: isMobile ? 1.5 : 2 }} // Mengatur margin bawah
+            sx={{ mb: isMobile ? 1.5 : 2 }}
           />
           <TextField
             label="Mata Pelajaran"
@@ -135,13 +137,13 @@ export default function TambahGuru() {
           <Box
             sx={{
               display: "flex",
-              flexDirection: isMobile ? "column" : "row", // Kolom di layar kecil
+              flexDirection: isMobile ? "column" : "row",
               gap: 2,
             }}
           >
             <Button
               variant="contained"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/TabelGuru")}
               sx={{
                 flex: 1,
                 background: "#EF5350",

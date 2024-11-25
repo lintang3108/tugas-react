@@ -12,7 +12,7 @@ import {
 import Swal from "sweetalert2";
 
 export default function EditGuru() {
-  const { id } = useParams();
+  const { id } = useParams(); // Ambil ID dari parameter URL
   const navigate = useNavigate();
 
   const [guru, setGuru] = useState({
@@ -26,6 +26,7 @@ export default function EditGuru() {
   // Deteksi layar kecil
   const isMobile = useMediaQuery("(max-width:600px)");
 
+  // Ambil data guru berdasarkan ID
   useEffect(() => {
     fetchGuruById();
   }, []);
@@ -45,8 +46,8 @@ export default function EditGuru() {
       })
       .catch((error) => {
         console.error("Error fetching guru data:", error);
-        Swal.fire("Gagal!", "Data guru tidak ditemukan.", "error").then(() =>
-          navigate("/")
+        Swal.fire("Gagal!", "Data guru tidak ditemukan.", "error").then(
+          () => navigate("/TabelGuru") // Kembali ke tabel guru jika gagal
         );
       });
   };
@@ -65,7 +66,7 @@ export default function EditGuru() {
           "Berhasil!",
           "Data guru berhasil diperbarui.",
           "success"
-        ).then(() => navigate("/"));
+        ).then(() => navigate("/TabelGuru")); // Kembali ke tabel guru setelah sukses
       })
       .catch((error) => {
         console.error("Error updating guru data:", error);
@@ -168,7 +169,7 @@ export default function EditGuru() {
           >
             <Button
               variant="contained"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/TabelGuru")}
               sx={{
                 flex: 1,
                 background: "#EF5350",

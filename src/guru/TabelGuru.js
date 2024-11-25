@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { styled } from "@mui/material/styles";
+import React, { useState, useEffect } from "react"; // Impor React dan hooks
+import axios from "axios"; // Impor axios
+import { styled } from "@mui/material/styles"; // Impor styled untuk custom table cell
 import {
   Table,
   TableBody,
@@ -12,24 +12,28 @@ import {
   Button,
   Typography,
   Box,
-  useMediaQuery,
-} from "@mui/material";
-import { tableCellClasses } from "@mui/material/TableCell"; // Tambahkan ini
-import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
-import { useNavigate } from "react-router-dom";
+  TextField,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material"; // Impor komponen Material UI
+import { tableCellClasses } from "@mui/material/TableCell"; // Impor tableCellClasses untuk styling
+import Swal from "sweetalert2"; // Impor SweetAlert2
+import { useNavigate } from "react-router-dom"; // Impor useNavigate untuk navigasi
+import SearchIcon from "@mui/icons-material/Search"; // Impor icon pencarian
 
 // Styled TableCell
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#3F51B5",
+    backgroundColor: "#3949AB",
     color: theme.palette.common.white,
     fontWeight: "bold",
     fontSize: 16,
+    textAlign: "center",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
     color: "#424242",
+    textAlign: "center",
   },
 }));
 
@@ -39,32 +43,39 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   "&:nth-of-type(even)": {
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#F4F6F8",
   },
   "&:hover": {
     backgroundColor: "#E8EAF6",
     transition: "background-color 0.3s ease",
+    cursor: "pointer",
   },
 }));
 
 // Komponen Utama
 export default function Guru() {
   const [gurus, setGurus] = useState([]);
+  const [filteredGurus, setFilteredGurus] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const isMobile = useMediaQuery("(max-width:600px)");
 
   useEffect(() => {
     fetchGurus();
   }, []);
 
   const fetchGurus = () => {
+    setLoading(true);
     axios
       .get("http://localhost:3030/gurus")
       .then((response) => {
         setGurus(response.data);
+        setFilteredGurus(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        setLoading(false);
       });
   };
 
@@ -94,27 +105,45 @@ export default function Guru() {
     });
   };
 
+  const handleSearch = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchTerm(value);
+    const filtered = gurus.filter(
+      (guru) =>
+        guru.nama.toLowerCase().includes(value) ||
+        guru.mapel.toLowerCase().includes(value) ||
+        guru.nik.toString().includes(value) ||
+        guru.jabatan.toLowerCase().includes(value)
+    );
+    setFilteredGurus(filtered);
+  };
+
   return (
     <Box sx={{ p: 3, backgroundColor: "#EDE7F6", minHeight: "100vh" }}>
+      {/* Judul Halaman */}
       <Typography
-        variant={isMobile ? "h5" : "h4"}
+        variant="h4"
         sx={{
-          mb: 3,
+          mb: 4,
           textAlign: "center",
           fontWeight: "bold",
           color: "#283593",
+          fontFamily: "Poppins, sans-serif",
         }}
       >
         Daftar Guru
       </Typography>
+
+      {/* Search dan Tombol Tambah */}
       <Box
         sx={{
           display: "flex",
-          justifyContent: isMobile ? "center" : "space-between",
+          justifyContent: "space-between",
+          alignItems: "center",
           mb: 3,
-          flexDirection: isMobile ? "column" : "row",
         }}
       >
+        {/* Tombol Tambah Guru */}
         <Button
           variant="contained"
           onClick={() => navigate("/Tambah_guru")}
@@ -122,76 +151,128 @@ export default function Guru() {
             fontWeight: "bold",
             backgroundColor: "#5C6BC0",
             color: "#fff",
-            "&:hover": { backgroundColor: "#3F51B5" },
-            mb: isMobile ? 2 : 0,
+            borderRadius: 2,
+            px: 3,
+            "&:hover": { backgroundColor: "#3949AB" },
           }}
         >
           Tambah Guru
         </Button>
+
+        {/* Input Pencarian */}
+        <TextField
+          label="Cari Guru"
+          variant="outlined"
+          size="small"
+          value={searchTerm}
+          onChange={handleSearch}
+          sx={{
+            width: "300px",
+            borderRadius: "50px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "50px",
+            },
+            "& .MuiOutlinedInput-input": {
+              paddingLeft: "30px",
+            },
+            "& .MuiInputAdornment-root": {
+              marginLeft: "-10px",
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "#3949AB" }} />
+              </InputAdornment>
+            ),
+          }}
+        />
       </Box>
-      <TableContainer
-        component={Paper}
-        sx={{
-          borderRadius: 3,
-          boxShadow: 4,
-          overflowX: "auto",
-        }}
-      >
-        <Table sx={{ minWidth: 700, width: "100%" }}>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>No</StyledTableCell>
-              <StyledTableCell align="center">Nama Guru</StyledTableCell>
-              <StyledTableCell align="center">Mata Pelajaran</StyledTableCell>
-              <StyledTableCell align="center">NIK</StyledTableCell>
-              <StyledTableCell align="center">Gender</StyledTableCell>
-              <StyledTableCell align="center">Jabatan</StyledTableCell>
-              <StyledTableCell align="center">Aksi</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {gurus.map((guru, index) => (
-              <StyledTableRow key={guru.id}>
-                <StyledTableCell>{index + 1}</StyledTableCell>
-                <StyledTableCell align="center">{guru.nama}</StyledTableCell>
-                <StyledTableCell align="center">{guru.mapel}</StyledTableCell>
-                <StyledTableCell align="center">{guru.nik}</StyledTableCell>
-                <StyledTableCell align="center">{guru.gender}</StyledTableCell>
-                <StyledTableCell align="center">{guru.jabatan}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => navigate(`/Ubah_guru/${guru.id}`)}
-                    sx={{
-                      fontWeight: "bold",
-                      backgroundColor: "#FFB74D",
-                      color: "#fff",
-                      mr: 1,
-                      "&:hover": { backgroundColor: "#FFA726" },
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleDelete(guru.id)}
-                    sx={{
-                      fontWeight: "bold",
-                      backgroundColor: "#E53935",
-                      color: "#fff",
-                      "&:hover": { backgroundColor: "#D32F2F" },
-                    }}
-                  >
-                    Hapus
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+
+      {/* Loading Spinner */}
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <CircularProgress />
+        </Box>
+      ) : filteredGurus.length === 0 ? (
+        <Typography
+          sx={{
+            textAlign: "center",
+            color: "#757575",
+            fontStyle: "italic",
+            mt: 4,
+          }}
+        >
+          Tidak ada data yang sesuai.
+        </Typography>
+      ) : (
+        // Tabel Guru
+        <TableContainer
+          component={Paper}
+          sx={{
+            borderRadius: 3,
+            boxShadow: 6,
+            overflowX: "auto",
+          }}
+        >
+          <Table sx={{ minWidth: 700, width: "100%" }}>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>No</StyledTableCell>
+                <StyledTableCell>Nama Guru</StyledTableCell>
+                <StyledTableCell>Mata Pelajaran</StyledTableCell>
+                <StyledTableCell>NIK</StyledTableCell>
+                <StyledTableCell>Gender</StyledTableCell>
+                <StyledTableCell>Jabatan</StyledTableCell>
+                <StyledTableCell>Aksi</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredGurus.map((guru, index) => (
+                <StyledTableRow key={guru.id}>
+                  <StyledTableCell>{index + 1}</StyledTableCell>
+                  <StyledTableCell>{guru.nama}</StyledTableCell>
+                  <StyledTableCell>{guru.mapel}</StyledTableCell>
+                  <StyledTableCell>{guru.nik}</StyledTableCell>
+                  <StyledTableCell>{guru.gender}</StyledTableCell>
+                  <StyledTableCell>{guru.jabatan}</StyledTableCell>
+                  <StyledTableCell>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => navigate(`/Ubah_guru/${guru.id}`)}
+                      sx={{
+                        fontWeight: "bold",
+                        backgroundColor: "#FFB74D",
+                        color: "#fff",
+                        mr: 1,
+                        borderRadius: 2,
+                        "&:hover": { backgroundColor: "#FFA726" },
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => handleDelete(guru.id)}
+                      sx={{
+                        fontWeight: "bold",
+                        backgroundColor: "#E53935",
+                        color: "#fff",
+                        borderRadius: 2,
+                        "&:hover": { backgroundColor: "#D32F2F" },
+                      }}
+                    >
+                      Hapus
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 }

@@ -58,7 +58,7 @@ export default function TambahSiswa() {
       await axios.post("http://localhost:3030/siswas", newStudent);
 
       Swal.fire("Berhasil!", "Siswa berhasil ditambahkan.", "success");
-      navigate("/", {
+      navigate("/TabelSiswa", {
         state: { refresh: true, asalSekolah: newStudent.asalSekolah },
       });
     } catch (error) {
@@ -157,7 +157,7 @@ export default function TambahSiswa() {
           >
             <Button
               variant="contained"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/TabelSiswa")}
               sx={{
                 flex: 1,
                 backgroundColor: "#E53935", // Merah untuk tombol batal
